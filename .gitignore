@@ -2,3 +2,4 @@
 venv/
 
 __pycache__/
+/data/20200915143430_MPU_9250_0xf4b8000000000.dump

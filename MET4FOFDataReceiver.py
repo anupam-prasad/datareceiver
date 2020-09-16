@@ -37,7 +37,7 @@ import messages_pb2
 
 
 class DataReceiver:
-    """Class for handlig the incomming UDP Packets and spwaning sensor Tasks and sending the Protobuff Messages over an queue to the Sensor Task
+    """Class for handling the incoming UDP Packets and spawning sensor Tasks and sending the Protobuff Messages over a queue to the Sensor Task
 
     .. image:: ../doc/DR_flow.png
 
@@ -50,16 +50,16 @@ class DataReceiver:
         Parameters
         ----------
         IP : string
-            Either an spefic IP Adress like "192.168.0.200" or "" for all interfaces.
-        Port : intger
-            UDP Port for the incoming data 7654 is default.
+            Either a specific IP address like "192.168.0.200" or "" for all interfaces.
+        Port : integer
+            UDP Port for the incoming data. 7654 is default.
 
         Raises
         ------
         socket.error:[errno 99] cannot assign requested address and namespace in python
-            The Set IP does not match any networkintrefaces ip.
+            The Set IP does not match any network interface's ip.
         socket.error:[Errno 98] Address already in use
-            an other task is using the set port and interface.
+            another task is using the set port and interface.
         Returns
         -------
         None.
@@ -120,7 +120,7 @@ class DataReceiver:
 
         """
         return (
-            "Datareceiver liestening at ip "
+            "Datareceiver listening at ip "
             + str(self.params["IP"])
             + " Port "
             + str(self.params["Port"])
@@ -149,7 +149,7 @@ class DataReceiver:
 
     def run(self):
         """
-        Spwans the Datareceiver task.
+        Spawns the Datareceiver task.
 
         Returns
         -------
@@ -282,7 +282,7 @@ class DataReceiver:
 
     def __del__(self):
         """
-        just for securtiy closes the socket if __del__ is called.
+        just for security closes the socket if __del__ is called.
 
         Returns
         -------
@@ -315,8 +315,8 @@ class ChannelDescription:
 
         Parameters
         ----------
-        CHID : intger
-            ID of the channel startig with 1.
+        CHID : integer
+            ID of the channel starting with 1.
 
         Returns
         -------
@@ -359,14 +359,14 @@ class ChannelDescription:
     # todo override set methode
     def setDescription(self, key, value):
         """
-        Sets an spefic key of an channel description.
+        Sets the specific key of a channel description.
 
         Parameters
         ----------
         key : string
-            PHYSICAL_QUANTITY",UNIT,RESOLUTION,MIN_SCALE or MAX_SCALE.
-        value : string or intger
-            valuie coresponding to the key.
+            PHYSICAL_QUANTITY", UNIT, RESOLUTION, MIN_SCALE or MAX_SCALE.
+        value : string or integer
+            value corresponding to the key.
         Returns
         -------
         None.
@@ -403,7 +403,7 @@ class SensorDescription:
         SensorName : sting
             Name of the sensor.The default is "undefined".
         fromDict : dict
-            If an Description dict is passed the Channel params will be set accordingly.
+            If a Description dict is passed the Channel params will be set accordingly.
         Returns
         -------
         None.
@@ -456,12 +456,12 @@ class SensorDescription:
 
         Parameters
         ----------
-        CHID : intger
-            ID of the channel startig with 1.
+        CHID : integer
+            ID of the channel starting with 1.
         key : string
-            PHYSICAL_QUANTITY",UNIT,RESOLUTION,MIN_SCALE or MAX_SCALE.
-        value : string or intger
-            valuie coresponding to the key.
+            PHYSICAL_QUANTITY", UNIT, RESOLUTION, MIN_SCALE or MAX_SCALE.
+        value : string or integer
+            value corresponding to the key.
 
         Returns
         -------
@@ -497,7 +497,7 @@ class SensorDescription:
 
     def __getitem__(self, key):
         """
-        Reutrns the description for an channel callable by Channel ID eg 1, Channel name eg. Data_01 or Physical PHYSICAL_QUANTITY eg. Acceleration_x.
+        Returns the description for a channel callable by Channel ID eg 1, Channel name eg. Data_01 or Physical PHYSICAL_QUANTITY eg. Acceleration_x.
 
         Parameters
         ----------
@@ -552,7 +552,7 @@ def doNothingCb():
     pass
 
 class Sensor:
-    """Class for Processing the Data from Datareceiver class. All instances of this class will be swaned in Datareceiver.AllSensors
+    """Class for Processing the Data from Datareceiver class. All instances of this class will be spawned in Datareceiver.AllSensors
 
     .. image:: ../doc/Sensor_loop.png
 
@@ -670,7 +670,7 @@ class Sensor:
         return hex(self.Description.ID) + " " + self.Description.SensorName
     def StartDumpingToFileASCII(self, filenamePrefix="",splittime=86400):
         """
-        Activate dumping Messages in a file ASCII encoded ; seperated.
+        Activate dumping Messages in a file ASCII encoded ; separated.
 
         Parameters
         ----------
@@ -939,12 +939,12 @@ class Sensor:
 
     def SetCallback(self, callback):
         """
-        Sets an callback function signature musste be: callback(message["ProtMsg"], self.Description)
+        Sets an callback function signature must be: callback(message["ProtMsg"], self.Description)
 
         Parameters
         ----------
         callback : function
-            callback function signature musste be: callback(message["ProtMsg"], self.Description).
+            callback function signature must be: callback(message["ProtMsg"], self.Description).
 
         Returns
         -------
@@ -1092,12 +1092,12 @@ class Sensor:
 class genericPlotter:
     def __init__(self, BufferLength,pushDevider=1):
         """
-        Creates an Datebuffer witch is plotting the Sensor data after the buffer is full, one Subplot for every unique physical unit [°C,deg/s,m/s^2,µT]. in the data stream
+        Creates an Datebuffer witch is plotting the Sensor data after the buffer is full, one Subplot for every unique physical unit [°C,deg/s,m/s^2,µT] in the data stream
 
         Parameters
         ----------
         BufferLength : integer
-            Length of the Buffer should fit aprox 2 seconds of dat.
+            Length of the Buffer should fit approx. 2 seconds of data.
 
         Returns
         -------
@@ -1188,7 +1188,7 @@ class genericPlotter:
 
     def PushData(self, message, Description):
         """
-        Pushes an block of data in to the buffer. This function is set as Sensor callback with the function :Sensor.SetCallback`
+        Pushes a block of data in to the buffer. This function is set as Sensor callback with the function :Sensor.SetCallback`
 
         Parameters
         ----------
@@ -1263,9 +1263,9 @@ class genericPlotter:
                     OutDataDescripton[ac-1]=self.Description[ac]
                 coppyMask=np.array(list(activeChannels))
                 timeDescription = {
-                    'PHYSICAL_QUANTITY' : "Time",
-                    'UNIT' : "unixSeconds",
-                    "UNCERTAINTY_TYPE": "2sigma convidence",
+                    'PHYSICAL_QUANTITY': "Time",
+                    'UNIT': "unixSeconds",
+                    "UNCERTAINTY_TYPE": "2sigma confidence",
                 }
                 OutDescription={"Index":[timeDescription],"Data":OutDataDescripton,"TimeStamp":self.index[0]}
                 coppyMask =coppyMask-1
@@ -1289,12 +1289,12 @@ class genericPlotter:
 
     def SetCallback(self, callback):
         """
-        Sets an callback function signature musste be: callback(message["ProtMsg"], self.Description)
+        Sets a callback function whose signature must be: callback(message["ProtMsg"], self.Description)
 
         Parameters
         ----------
         callback : function
-            callback function signature musste be: callback(message["ProtMsg"], self.Description).
+            callback function signature must be: callback(message["ProtMsg"], self.Description).
 
         Returns
         -------
